@@ -29,6 +29,16 @@
             "warn",
             { "allowConstantExport": true }
         ],
-        "react/react-in-jsx-scope": "off"
+        "no-unused-vars": [
+            "error",
+            {
+                "vars": "all",
+                "args": "after-used",
+                "ignoreRestSiblings": true,
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "react/react-in-jsx-scope": "off",
+        "import/no-unresolved": "off"
     }
 }
