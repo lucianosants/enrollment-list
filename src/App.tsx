@@ -5,7 +5,7 @@ import { ThemeProvider } from './components/theme-provider';
 function App() {
     return (
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-            <div className="container flex flex-col max-w-6xl min-h-screen py-4 mx-auto">
+            <div className="container flex flex-col max-w-6xl min-h-screen py-4 mx-auto font-signature">
                 Enrollment List
                 <Outlet />
             </div>

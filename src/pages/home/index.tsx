@@ -1,3 +1,10 @@
+import logo from '../../assets/logo.svg';
+
 export function Home() {
-    return <div>Home</div>;
+    return (
+        <div className="text-primary-alt">
+            Home
+            <img src={logo} alt="" />
+        </div>
+    );
 }
