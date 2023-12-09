@@ -1,13 +1,20 @@
 import { Outlet } from 'react-router-dom';
 
-import { ThemeProvider } from './components/theme-provider';
+import { ThemeProvider } from '@/components/theme-provider';
+import { AsideBar } from '@/components/AsideBar';
+import { Header } from '@/components';
 
 function App() {
     return (
-        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-            <div className="container flex flex-col max-w-6xl min-h-screen py-4 mx-auto font-signature">
-                Enrollment List
-                <Outlet />
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <div className="container flex flex-col min-h-screen mx-auto font-signature">
+                <Header />
+                <div className="flex pt-20">
+                    <AsideBar />
+                    <main className="px-4 pt-4">
+                        <Outlet />
+                    </main>
+                </div>
             </div>
         </ThemeProvider>
     );
