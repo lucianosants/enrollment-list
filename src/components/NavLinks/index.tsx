@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export function NavLinks() {
     const links = [
         { label: 'Alunos Matriculados', href: '/' },
-        { label: 'Cursos Cadastrados', href: '/grades' },
+        { label: 'Cursos Cadastrados', href: '/courses' },
     ];
 
     return (

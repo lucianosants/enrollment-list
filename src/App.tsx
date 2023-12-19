@@ -16,7 +16,7 @@ function App() {
                     <Header />
                     <div className="flex pt-20">
                         <AsideBar />
-                        <main className="w-full px-4 pt-4">
+                        <main className="w-full pt-4 md:px-4">
                             <Outlet />
                         </main>
                     </div>
