@@ -4,18 +4,24 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { AsideBar } from '@/components/AsideBar';
 import { Header } from '@/components';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient({});
+
 function App() {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <div className="container flex flex-col min-h-screen mx-auto font-signature">
-                <Header />
-                <div className="flex pt-20">
-                    <AsideBar />
-                    <main className="px-4 pt-4">
-                        <Outlet />
-                    </main>
+            <QueryClientProvider client={queryClient}>
+                <div className="container flex flex-col min-h-screen mx-auto overflow-x-hidden font-signature">
+                    <Header />
+                    <div className="flex pt-20">
+                        <AsideBar />
+                        <main className="w-full px-4 pt-4">
+                            <Outlet />
+                        </main>
+                    </div>
                 </div>
-            </div>
+            </QueryClientProvider>
         </ThemeProvider>
     );
 }

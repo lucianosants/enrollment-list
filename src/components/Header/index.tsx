@@ -11,7 +11,7 @@ import { MenuBar } from './MenuBar';
 
 export function Header() {
     return (
-        <div className="fixed left-0 w-full py-4 mx-auto border-b bg-background/80 backdrop-blur-lg">
+        <div className="fixed left-0 z-20 w-full py-4 mx-auto border-b bg-background/80 backdrop-blur-lg">
             <header className="container flex items-center justify-between w-full h-full">
                 <div className="flex">
                     <Link to={'/'} className="block w-fit">
