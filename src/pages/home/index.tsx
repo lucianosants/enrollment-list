@@ -18,6 +18,7 @@ export function Home() {
         queryFn: () => getAllStudents(perPage, currentPage),
         placeholderData: keepPreviousData,
         refetchOnWindowFocus: false,
+        refetchOnMount: false,
     });
 
     if (status == 'pending') {

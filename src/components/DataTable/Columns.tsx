@@ -98,7 +98,7 @@ export const columns: ColumnDef<Student>[] = [
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            <Link to={`/student/${student.id}`}>
+                            <Link to={`/students/${student.id}`}>
                                 Ver detalhes
                             </Link>
                         </DropdownMenuItem>
