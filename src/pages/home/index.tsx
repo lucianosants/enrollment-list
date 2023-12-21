@@ -1,18 +1,20 @@
 import { useState } from 'react';
-import { Loader } from 'lucide-react';
+import { Loader, RotateCw } from 'lucide-react';
 
 import { columns } from '@/components/DataTable/Columns';
 import { DataTable } from '@/components/DataTable/DataTable';
 import { Button } from '@/components/ui/button';
 import { ErrorLoading, HomeLoading } from './loaders';
+import { Tooltip } from '@/components';
 
 import { useFetchStudents } from '@/hooks/student';
+import { Link } from 'react-router-dom';
 
 export function Home() {
     const [currentPage, setCurrentPage] = useState(0);
     const perPage = 20;
 
-    const { students, isPlaceholderData, status, isFetching } =
+    const { students, isPlaceholderData, status, isFetching, refetch } =
         useFetchStudents({ currentPage, perPage });
 
     if (status == 'pending') {
@@ -37,6 +39,32 @@ export function Home() {
                 <ErrorLoading />
             ) : (
                 <section>
+                    <div className="flex gap-4 mb-6 mt-9">
+                        <Tooltip.Root>
+                            <Tooltip.Trigger>
+                                <Button
+                                    variant={'secondary'}
+                                    size={'icon'}
+                                    onClick={async () => await refetch()}
+                                    disabled={isFetching}
+                                    aria-label="Atualizar lista"
+                                >
+                                    {isFetching ? (
+                                        <Loader className="animate-spin" />
+                                    ) : (
+                                        <RotateCw />
+                                    )}
+                                </Button>
+                            </Tooltip.Trigger>
+
+                            <Tooltip.Content>Atualizar Lista</Tooltip.Content>
+                        </Tooltip.Root>
+
+                        <Button asChild>
+                            <Link to={'/students/register'}>Novo aluno</Link>
+                        </Button>
+                    </div>
+
                     <DataTable columns={columns} data={students?.students} />
 
                     <div className="flex items-center justify-end py-4 space-x-2">
