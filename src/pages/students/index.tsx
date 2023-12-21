@@ -1,34 +1,46 @@
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import { Loader } from 'lucide-react';
 
 import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-
-import { ScrollToTop } from '@/routers';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 
 import { getDate } from '@/services/utils';
-import { fetchStudentByName } from '@/services';
+import { ScrollToTop } from '@/routers';
+
+import { useFetchStudentById, useRemoveStudent } from '@/hooks/student';
 
 export function StudentsPage() {
     const { id } = useParams();
 
-    const { data, status, isFetching } = useQuery({
-        queryKey: ['student'],
-        queryFn: async () => fetchStudentByName(String(id)),
-        refetchOnWindowFocus: false,
-    });
+    const { student, status, isFetching } = useFetchStudentById(String(id));
+    const { mutate, status: removeStatus } = useRemoveStudent();
+
+    const handleRemoveStudent = () => mutate(String(id));
 
     if (status === 'pending') {
         return (
             <>
                 <Skeleton className="w-1/3 h-10 mb-6" />
                 <Skeleton className="w-full h-96" />
+            </>
+        );
+    }
+
+    if (status === 'error') {
+        return (
+            <>
+                <ScrollToTop />
+                <h2 className="mb-6">Informações de aluno</h2>
+
+                <p>Ocorreu um erro ao buscar por aluno</p>
             </>
         );
     }
@@ -43,9 +55,9 @@ export function StudentsPage() {
             ) : (
                 <Card>
                     <CardHeader>
-                        <CardTitle>{data?.name}</CardTitle>
+                        <CardTitle>{student?.name}</CardTitle>
                         <CardDescription>
-                            Aluno matriculado em {getDate(data?.createdAt)}
+                            Aluno matriculado em {getDate(student?.createdAt)}
                         </CardDescription>
                     </CardHeader>
 
@@ -53,27 +65,27 @@ export function StudentsPage() {
                         <p className="font-bold">
                             Idade:
                             <span className="ml-2 font-semibold text-muted-foreground">
-                                {data?.age}
+                                {student?.age}
                             </span>
                         </p>
 
                         <p className="font-bold">
                             Cursando atualmente:
                             <span className="ml-2 font-semibold text-muted-foreground">
-                                {data?.course.name}
+                                {student?.course.name}
                             </span>
                         </p>
 
                         <p className="font-bold">
                             Situação do aluno:
                             <span className="ml-2 font-semibold text-muted-foreground">
-                                {data?.status === 'Approved'
+                                {student?.status === 'Approved'
                                     ? 'Aprovado'
                                     : null}
-                                {data?.status === 'Pending'
+                                {student?.status === 'Pending'
                                     ? 'Em Andamento'
                                     : null}
-                                {data?.status === 'Rejected'
+                                {student?.status === 'Rejected'
                                     ? 'Reprovado'
                                     : null}
                             </span>
@@ -82,18 +94,35 @@ export function StudentsPage() {
                         <div className="mt-4">
                             <h3>Disciplinas</h3>
                             <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
-                                {!data?.subjects.length ? (
+                                {!student?.subjects.length ? (
                                     <p className="text-muted-foreground">
                                         Ainda não há disciplinas cadastradas
                                     </p>
                                 ) : null}
 
-                                {data?.subjects.map((subject) => (
+                                {student?.subjects.map((subject) => (
                                     <li key={subject.id}>{subject.name}</li>
                                 ))}
                             </ul>
                         </div>
                     </CardContent>
+
+                    <CardFooter>
+                        <div className="flex gap-4">
+                            <Button>Editar</Button>
+                            <Button
+                                variant={'destructive'}
+                                onClick={handleRemoveStudent}
+                                disabled={removeStatus === 'pending'}
+                            >
+                                {removeStatus === 'pending' ? (
+                                    <Loader className="animate-spin" />
+                                ) : (
+                                    'Remover'
+                                )}
+                            </Button>
+                        </div>
+                    </CardFooter>
                 </Card>
             )}
         </div>

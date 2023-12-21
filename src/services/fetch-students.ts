@@ -37,3 +37,9 @@ export async function fetchStudentByName(id: string): Promise<StudentProps> {
 
     return data;
 }
+
+export async function removerStudent(id: string) {
+    const { data } = await api.delete(`/student/${id}`);
+
+    return data;
+}

@@ -104,9 +104,6 @@ export const columns: ColumnDef<Student>[] = [
                         </DropdownMenuItem>
 
                         <DropdownMenuItem>Editar</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-500">
-                            Remover
-                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

@@ -1,25 +1,19 @@
 import { useState } from 'react';
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { Loader } from 'lucide-react';
 
 import { columns } from '@/components/DataTable/Columns';
 import { DataTable } from '@/components/DataTable/DataTable';
 import { Button } from '@/components/ui/button';
-
 import { ErrorLoading, HomeLoading } from './loaders';
-import { getAllStudents } from '@/services';
+
+import { useFetchStudents } from '@/hooks/student';
 
 export function Home() {
     const [currentPage, setCurrentPage] = useState(0);
     const perPage = 20;
 
-    const { data, isPlaceholderData, status, isFetching } = useQuery({
-        queryKey: ['students', currentPage],
-        queryFn: () => getAllStudents(perPage, currentPage),
-        placeholderData: keepPreviousData,
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-    });
+    const { students, isPlaceholderData, status, isFetching } =
+        useFetchStudents({ currentPage, perPage });
 
     if (status == 'pending') {
         return <HomeLoading />;
@@ -43,7 +37,8 @@ export function Home() {
                 <ErrorLoading />
             ) : (
                 <section>
-                    <DataTable columns={columns} data={data?.students} />
+                    <DataTable columns={columns} data={students?.students} />
+
                     <div className="flex items-center justify-end py-4 space-x-2">
                         {isFetching && <Loader className="animate-spin" />}
 
@@ -62,13 +57,13 @@ export function Home() {
                             variant="outline"
                             size="sm"
                             onClick={() => {
-                                if (!isPlaceholderData || data?.students) {
+                                if (!isPlaceholderData || students?.students) {
                                     setCurrentPage((prev) => prev + perPage);
                                 }
                             }}
                             disabled={
                                 isPlaceholderData ||
-                                data?.students.length < perPage
+                                students?.students.length < perPage
                             }
                         >
                             Proximo
