@@ -1,3 +1,5 @@
+import * as z from 'zod';
+import { studentSchema } from '@/services/utils';
 import { GradeProps, SubjectProps, CourseProps } from '.';
 
 export type StudentBase = {
@@ -15,3 +17,5 @@ export type StudentProps = StudentBase & {
     subjects: SubjectProps[];
     course: CourseProps;
 };
+
+export type StudentSchemaProps = z.infer<typeof studentSchema>;
