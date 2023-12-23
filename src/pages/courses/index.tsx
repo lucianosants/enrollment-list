@@ -32,7 +32,7 @@ export function CoursesPage() {
                                             key={`${index} - ${item}`}
                                             className=""
                                         >
-                                            {item}
+                                            {item.name}
                                         </li>
                                     );
                                 })}
