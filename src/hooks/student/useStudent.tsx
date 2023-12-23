@@ -7,6 +7,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import { fetchStudentByName, getAllStudents, removerStudent } from '@/services';
+import { api } from '@/lib/api';
+import { StudentSchemaProps } from '@/@types';
 
 type UseFetchStudentsProps = {
     currentPage: number;
@@ -53,6 +55,36 @@ export function useRemoveStudent() {
 
             await queryClient.cancelQueries({
                 queryKey: ['student'],
+            });
+
+            await queryClient.refetchQueries({
+                queryKey: ['students'],
+            });
+
+            navigate('/');
+        },
+    });
+
+    return { ...rest };
+}
+
+export function useInsertStudent() {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+
+    const { ...rest } = useMutation({
+        mutationFn: async (data: Partial<StudentSchemaProps>) => {
+            const { data: student } = await api.post('/student', {
+                ...data,
+                createdAt: data.createdAt?.toISOString(),
+            });
+
+            return { student };
+        },
+
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['students'],
             });
 
             await queryClient.refetchQueries({

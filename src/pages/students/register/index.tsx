@@ -12,6 +12,9 @@ import { ScrollToTop } from '@/routers';
 
 import { studentSchema } from '@/services/utils';
 import { StudentSchemaProps } from '@/@types';
+import { useInsertStudent } from '@/hooks/student';
+import { Button } from '@/components/ui/button';
+import { Loader } from 'lucide-react';
 
 export function RegisterStudent() {
     const form = useForm<StudentSchemaProps>({
@@ -24,11 +27,9 @@ export function RegisterStudent() {
         resolver: zodResolver(studentSchema),
     });
 
-    const onSubmit = (data: StudentSchemaProps) => {
-        console.log('Cadastrado com sucesso.', data);
-    };
+    const { mutate, status } = useInsertStudent();
 
-    console.log(form.formState.errors);
+    const onSubmit = (data: StudentSchemaProps) => mutate(data);
 
     return (
         <div className="px-4 mb-40">
@@ -46,6 +47,14 @@ export function RegisterStudent() {
                     <FormFieldAge />
                     <FormFieldCourse />
                     <FormFieldCreatedAt />
+
+                    <Button type="submit" disabled={status === 'pending'}>
+                        {status === 'pending' ? (
+                            <Loader className="animate-spin" />
+                        ) : (
+                            'Concluir'
+                        )}
+                    </Button>
                 </FormRoot>
             </div>
         </div>

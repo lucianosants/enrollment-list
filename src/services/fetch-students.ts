@@ -1,6 +1,6 @@
 import { api } from '@/lib/api';
 import { getDate } from './utils';
-import { StudentBase, StudentProps } from '@/@types';
+import { StudentBase, StudentProps, StudentSchemaProps } from '@/@types';
 
 type AllStudentProps = StudentBase & {
     createdAt: string;
@@ -39,7 +39,16 @@ export async function fetchStudentByName(id: string): Promise<StudentProps> {
 }
 
 export async function removerStudent(id: string) {
-    const { data } = await api.delete(`/student/${id}`);
+    const { data } = await api.delete(`${url}/${id}`);
 
     return data;
+}
+
+export async function insertStudent(data: Partial<StudentSchemaProps>) {
+    const { data: student } = await api.post(url, {
+        ...data,
+        createdAt: data.createdAt?.toISOString(),
+    });
+
+    return { student };
 }

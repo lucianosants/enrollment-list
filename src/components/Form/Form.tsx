@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
@@ -32,8 +31,6 @@ export function FormRoot(props: FormProps) {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 {children}
-
-                <Button type="submit">Concluir</Button>
             </form>
         </Form>
     );
