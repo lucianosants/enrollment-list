@@ -21,9 +21,11 @@ export function StudentsPage() {
     const { id } = useParams();
 
     const { student, status, isFetching } = useFetchStudentById(String(id));
-    const { mutate, status: removeStatus } = useRemoveStudent();
+    const { mutate, status: removeStatus } = useRemoveStudent(
+        String(student?.name),
+    );
 
-    const handleRemoveStudent = () => mutate(String(id));
+    // const handleRemoveStudent = () => mutate(String(id));
 
     if (status === 'pending') {
         return (
@@ -112,7 +114,7 @@ export function StudentsPage() {
                             <Button>Editar</Button>
                             <Button
                                 variant={'destructive'}
-                                onClick={handleRemoveStudent}
+                                onClick={() => mutate(String(id))}
                                 disabled={removeStatus === 'pending'}
                             >
                                 {removeStatus === 'pending' ? (

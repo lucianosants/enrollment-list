@@ -6,6 +6,8 @@ import {
 } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
+import { useToast } from '@/components/ui/use-toast';
+
 import { fetchStudentByName, getAllStudents, removerStudent } from '@/services';
 import { api } from '@/lib/api';
 import { StudentSchemaProps } from '@/@types';
@@ -26,7 +28,26 @@ export function useFetchStudents(props: UseFetchStudentsProps) {
         refetchOnMount: false,
     });
 
-    return { students, ...rest };
+    const { toast } = useToast();
+
+    const refetchTable = async () => {
+        const { isError } = await rest.refetch();
+
+        if (isError) {
+            return toast({
+                variant: 'destructive',
+                title: 'Ops! Lista de alunos não atualizada!',
+                description:
+                    'Ocorreu um erro durante a atualização da lista de alunos.',
+            });
+        }
+
+        toast({
+            title: 'Lista de alunos atualizada!',
+        });
+    };
+
+    return { students, refetchTable, ...rest };
 }
 
 export function useFetchStudentById(id: string) {
@@ -39,10 +60,10 @@ export function useFetchStudentById(id: string) {
     return { student, ...rest };
 }
 
-export function useRemoveStudent() {
+export function useRemoveStudent(name: string) {
     const queryClient = useQueryClient();
-
     const navigate = useNavigate();
+    const { toast } = useToast();
 
     const { ...rest } = useMutation({
         mutationFn: async (id: string) => {
@@ -61,7 +82,18 @@ export function useRemoveStudent() {
                 queryKey: ['students'],
             });
 
+            toast({
+                title: `${name} foi removido com sucesso.`,
+            });
+
             navigate('/');
+        },
+        onError: () => {
+            toast({
+                variant: 'destructive',
+                title: 'Ops! Algo deu errado!',
+                description: `Não foi possível remover ${name}.`,
+            });
         },
     });
 
@@ -71,6 +103,7 @@ export function useRemoveStudent() {
 export function useInsertStudent() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const { toast } = useToast();
 
     const { ...rest } = useMutation({
         mutationFn: async (data: Partial<StudentSchemaProps>) => {
@@ -81,7 +114,6 @@ export function useInsertStudent() {
 
             return { student };
         },
-
         onSuccess: async () => {
             await queryClient.invalidateQueries({
                 queryKey: ['students'],
@@ -91,7 +123,18 @@ export function useInsertStudent() {
                 queryKey: ['students'],
             });
 
+            toast({
+                title: 'Aluno cadastrado com sucesso.',
+            });
+
             navigate('/');
+        },
+        onError: () => {
+            toast({
+                variant: 'destructive',
+                title: 'Falha ao matricular aluno.',
+                description: `Não foi possível matricular esse aluno.`,
+            });
         },
     });
 

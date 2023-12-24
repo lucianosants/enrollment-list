@@ -9,12 +9,13 @@ import { Tooltip } from '@/components';
 
 import { useFetchStudents } from '@/hooks/student';
 import { Link } from 'react-router-dom';
+import { ScrollToTop } from '@/routers';
 
 export function Home() {
     const [currentPage, setCurrentPage] = useState(0);
     const perPage = 20;
 
-    const { students, isPlaceholderData, status, isFetching, refetch } =
+    const { students, isPlaceholderData, status, isFetching, refetchTable } =
         useFetchStudents({ currentPage, perPage });
 
     if (status == 'pending') {
@@ -23,8 +24,9 @@ export function Home() {
 
     return (
         <div className="px-4">
+            <ScrollToTop />
             <section>
-                <h2 className="pb-2 text-3xl font-semibold tracking-tight border-b scroll-m-20 first:mt-0">
+                <h2 className="pb-2 text-3xl tracking-tight border-b ont-semibold scroll-m-20 first:mt-0">
                     Lista de Alunos
                 </h2>
                 <div className="my-4">
@@ -36,7 +38,17 @@ export function Home() {
             </section>
 
             {status === 'error' ? (
-                <ErrorLoading />
+                <>
+                    <ErrorLoading />
+
+                    <Button
+                        variant={'secondary'}
+                        onClick={refetchTable}
+                        className="mt-6"
+                    >
+                        Atualizar lista
+                    </Button>
+                </>
             ) : (
                 <section>
                     <div className="flex gap-4 mb-6 mt-9">
@@ -45,7 +57,7 @@ export function Home() {
                                 <Button
                                     variant={'secondary'}
                                     size={'icon'}
-                                    onClick={async () => await refetch()}
+                                    onClick={refetchTable}
                                     disabled={isFetching}
                                     aria-label="Atualizar lista"
                                 >
