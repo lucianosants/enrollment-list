@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Loader } from 'lucide-react';
 
 import {
@@ -24,8 +24,6 @@ export function StudentsPage() {
     const { mutate, status: removeStatus } = useRemoveStudent(
         String(student?.name),
     );
-
-    // const handleRemoveStudent = () => mutate(String(id));
 
     if (status === 'pending') {
         return (
@@ -111,7 +109,10 @@ export function StudentsPage() {
 
                     <CardFooter>
                         <div className="flex gap-4">
-                            <Button>Editar</Button>
+                            <Button asChild>
+                                <Link to={`/students/edit/${id}`}>Editar</Link>
+                            </Button>
+
                             <Button
                                 variant={'destructive'}
                                 onClick={() => mutate(String(id))}

@@ -6,7 +6,13 @@ import {
 } from 'react-router-dom';
 
 import App from '@/App';
-import { Home, CoursesPage, StudentsPage, RegisterStudent } from '@/pages';
+import {
+    Home,
+    CoursesPage,
+    StudentsPage,
+    RegisterStudent,
+    EditStudentPage,
+} from '@/pages';
 
 const router = createBrowserRouter([
     {
@@ -28,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: '/students/register',
                 element: <RegisterStudent />,
+            },
+            {
+                path: '/students/edit/:id',
+                element: <EditStudentPage />,
             },
         ],
     },

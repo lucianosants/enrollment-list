@@ -103,7 +103,11 @@ export const columns: ColumnDef<Student>[] = [
                             </Link>
                         </DropdownMenuItem>
 
-                        <DropdownMenuItem>Editar</DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link to={`/students/edit/${student.id}`}>
+                                Editar
+                            </Link>
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

@@ -11,7 +11,7 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select } from './Select';
+import { SelectCourses, SelectStatus } from './Select';
 import { DatePicker } from './DatePicker';
 
 import { StudentSchemaProps } from '@/@types';
@@ -91,7 +91,7 @@ export function FormFieldCourse(form: Partial<FormProps['form']>) {
                 render={({ field }) => (
                     <FormItem>
                         <FormLabel>Curso</FormLabel>
-                        <Select field={{ ...field }} />
+                        <SelectCourses field={{ ...field }} />
                         <FormDescription>
                             Você pode escolher um curso na lista acima.
                         </FormDescription>
@@ -115,6 +115,27 @@ export function FormFieldCreatedAt(form: Partial<FormProps['form']>) {
                         <DatePicker field={{ ...field }} />
                         <FormDescription>
                             Você pode definir a data de matricula do aluno.
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+        </>
+    );
+}
+
+export function FormFieldStatus(form: Partial<FormProps['form']>) {
+    return (
+        <>
+            <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Status do aluno</FormLabel>
+                        <SelectStatus field={{ ...field }} />
+                        <FormDescription>
+                            Selecione o status do aluno.
                         </FormDescription>
                         <FormMessage />
                     </FormItem>

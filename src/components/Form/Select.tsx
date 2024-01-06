@@ -18,7 +18,7 @@ type SelectFormProps = {
     field: ControllerRenderProps<StudentSchemaProps>;
 };
 
-export function Select(props: Partial<SelectFormProps>) {
+export function SelectCourses(props: Partial<SelectFormProps>) {
     const { field } = props;
 
     return (
@@ -43,6 +43,38 @@ export function Select(props: Partial<SelectFormProps>) {
                                 </SelectItem>
                             ))}
                         </SelectGroup>
+                    ))}
+                </SelectContent>
+            </SelectInput>
+        </>
+    );
+}
+
+export function SelectStatus(props: Partial<SelectFormProps>) {
+    const { field } = props;
+
+    const status = [
+        { value: 'Pending', label: 'Em Andamento' },
+        { value: 'Approved', label: 'Aprovado' },
+        { value: 'Rejected', label: 'Reprovado' },
+    ];
+
+    return (
+        <>
+            <SelectInput
+                onValueChange={field!.onChange}
+                defaultValue={'Pending'}
+            >
+                <FormControl>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Selecione um status" />
+                    </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                    {status.map((status, index) => (
+                        <SelectItem key={index} value={status.value}>
+                            {status.label}
+                        </SelectItem>
                     ))}
                 </SelectContent>
             </SelectInput>
