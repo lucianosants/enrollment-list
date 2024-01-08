@@ -140,3 +140,39 @@ export function useInsertStudent() {
 
     return { ...rest };
 }
+
+export function useEditStudent(id: string) {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const { toast } = useToast();
+
+    const { ...rest } = useMutation({
+        mutationFn: async (data: StudentSchemaProps) => {
+            return await api.patch(`/student/${id}`, data);
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ['students'],
+            });
+
+            await queryClient.refetchQueries({
+                queryKey: ['students'],
+            });
+
+            toast({
+                title: 'Aluno foi atualizado com sucesso.',
+            });
+
+            navigate('/');
+        },
+        onError: () => {
+            toast({
+                variant: 'destructive',
+                title: 'Falha ao salvar alterações aluno.',
+                description: 'Não foi possível alterar informações do aluno.',
+            });
+        },
+    });
+
+    return { ...rest };
+}

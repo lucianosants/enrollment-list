@@ -14,14 +14,15 @@ import {
 import { ScrollToTop } from '@/routers';
 import { Button } from '@/components/ui/button';
 
-import { useFetchStudentById } from '@/hooks/student';
+import { useEditStudent, useFetchStudentById } from '@/hooks/student';
 import { StudentSchemaProps } from '@/@types';
 import { studentSchema } from '@/services/utils';
 
 export function EditStudentPage() {
     const { id } = useParams();
 
-    const { student, status, isLoading } = useFetchStudentById(String(id));
+    const { student, isLoading } = useFetchStudentById(String(id));
+    const { mutate, status } = useEditStudent(String(id));
 
     const form = useForm<StudentSchemaProps>({
         mode: 'onBlur',
@@ -32,9 +33,7 @@ export function EditStudentPage() {
         },
     });
 
-    const onSubmit = (data: StudentSchemaProps) => {
-        console.log(data);
-    };
+    const onSubmit = (data: StudentSchemaProps) => mutate(data);
 
     useEffect(() => {
         form.setValue('name', String(student?.name));
@@ -73,7 +72,7 @@ export function EditStudentPage() {
                         {status === 'pending' ? (
                             <Loader className="animate-spin" />
                         ) : (
-                            'Concluir'
+                            'Salvar'
                         )}
                     </Button>
                 </FormRoot>
