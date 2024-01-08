@@ -8,9 +8,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { useToast } from '@/components/ui/use-toast';
 
-import { fetchStudentByName, getAllStudents, removerStudent } from '@/services';
+import {
+    fetchStudentByName,
+    getAllStudents,
+    insertStudent,
+    removerStudent,
+} from '@/services';
 import { api } from '@/lib/api';
 import { StudentSchemaProps } from '@/@types';
+import { AxiosErrorProps } from '@/@types/axios-error';
 
 type UseFetchStudentsProps = {
     currentPage: number;
@@ -88,11 +94,11 @@ export function useRemoveStudent(name: string) {
 
             navigate('/');
         },
-        onError: () => {
+        onError: (error: AxiosErrorProps) => {
             toast({
                 variant: 'destructive',
                 title: 'Ops! Algo deu errado!',
-                description: `Não foi possível remover ${name}.`,
+                description: error.response?.data.message,
             });
         },
     });
@@ -107,13 +113,9 @@ export function useInsertStudent() {
 
     const { ...rest } = useMutation({
         mutationFn: async (data: Partial<StudentSchemaProps>) => {
-            const { data: student } = await api.post('/student', {
-                ...data,
-                createdAt: data.createdAt?.toISOString(),
-            });
-
-            return { student };
+            await insertStudent(data);
         },
+
         onSuccess: async () => {
             await queryClient.invalidateQueries({
                 queryKey: ['students'],
@@ -129,11 +131,11 @@ export function useInsertStudent() {
 
             navigate('/');
         },
-        onError: () => {
+        onError: (error: AxiosErrorProps) => {
             toast({
                 variant: 'destructive',
                 title: 'Falha ao matricular aluno.',
-                description: `Não foi possível matricular esse aluno.`,
+                description: error.response?.data.message,
             });
         },
     });
@@ -148,7 +150,7 @@ export function useEditStudent(id: string) {
 
     const { ...rest } = useMutation({
         mutationFn: async (data: StudentSchemaProps) => {
-            return await api.patch(`/student/${id}`, data);
+            await api.patch(`/student/${id}`, data);
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries({
@@ -165,11 +167,11 @@ export function useEditStudent(id: string) {
 
             navigate('/');
         },
-        onError: () => {
+        onError: (error: AxiosErrorProps) => {
             toast({
                 variant: 'destructive',
                 title: 'Falha ao salvar alterações aluno.',
-                description: 'Não foi possível alterar informações do aluno.',
+                description: error.response?.data.message,
             });
         },
     });

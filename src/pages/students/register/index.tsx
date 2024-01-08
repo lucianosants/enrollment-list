@@ -1,3 +1,4 @@
+import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -14,7 +15,6 @@ import { studentSchema } from '@/services/utils';
 import { StudentSchemaProps } from '@/@types';
 import { useInsertStudent } from '@/hooks/student';
 import { Button } from '@/components/ui/button';
-import { Loader } from 'lucide-react';
 
 export function RegisterStudent() {
     const form = useForm<StudentSchemaProps>({
@@ -32,7 +32,7 @@ export function RegisterStudent() {
     const onSubmit = (data: StudentSchemaProps) => mutate(data);
 
     return (
-        <div className="px-4 mb-40">
+        <section className="px-4 mb-40">
             <ScrollToTop />
 
             <h2>Matricular um novo aluno</h2>
@@ -57,6 +57,6 @@ export function RegisterStudent() {
                     </Button>
                 </FormRoot>
             </div>
-        </div>
+        </section>
     );
 }

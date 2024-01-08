@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { LoadingPage, StudentNotFound } from './loaders';
 
 import { getDate } from '@/services/utils';
 import { ScrollToTop } from '@/routers';
@@ -26,23 +27,11 @@ export function StudentsPage() {
     );
 
     if (status === 'pending') {
-        return (
-            <>
-                <Skeleton className="w-1/3 h-10 mb-6" />
-                <Skeleton className="w-full h-96" />
-            </>
-        );
+        return <LoadingPage />;
     }
 
     if (status === 'error') {
-        return (
-            <>
-                <ScrollToTop />
-                <h2 className="mb-6">Informações de aluno</h2>
-
-                <p>Ocorreu um erro ao buscar por aluno</p>
-            </>
-        );
+        return <StudentNotFound />;
     }
 
     return (

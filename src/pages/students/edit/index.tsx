@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { useEditStudent, useFetchStudentById } from '@/hooks/student';
 import { StudentSchemaProps } from '@/@types';
 import { studentSchema } from '@/services/utils';
+import { LoadingPage } from '../loaders';
 
 export function EditStudentPage() {
     const { id } = useParams();
@@ -30,6 +31,8 @@ export function EditStudentPage() {
         defaultValues: {
             status: undefined,
             age: 18,
+            createdAt: new Date(),
+            name: '',
         },
     });
 
@@ -50,11 +53,11 @@ export function EditStudentPage() {
     }, [form, student]);
 
     if (isLoading) {
-        return <p>Carregando...</p>;
+        return <LoadingPage />;
     }
 
     return (
-        <div className="px-4 mb-40">
+        <section className="px-4 mb-40">
             <ScrollToTop />
             <h2>
                 AlteraçÕes de informações de{' '}
@@ -77,6 +80,6 @@ export function EditStudentPage() {
                     </Button>
                 </FormRoot>
             </div>
-        </div>
+        </section>
     );
 }
