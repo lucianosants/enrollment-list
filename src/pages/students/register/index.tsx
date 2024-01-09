@@ -32,7 +32,7 @@ export function RegisterStudent() {
     const onSubmit = (data: StudentSchemaProps) => mutate(data);
 
     return (
-        <section className="px-4 mb-40">
+        <section className="mt-4 mb-40 md:px-4">
             <ScrollToTop />
 
             <h2>Matricular um novo aluno</h2>

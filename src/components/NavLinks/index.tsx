@@ -9,7 +9,7 @@ export function NavLinks() {
 
     return (
         <>
-            <div className="flex flex-col items-start gap-5 px-6">
+            <div className="flex flex-col items-start gap-5 px-6 md:mt-4">
                 <h4 className="pl-4 text-xl font-semibold tracking-tight scroll-m-20">
                     Menu
                 </h4>

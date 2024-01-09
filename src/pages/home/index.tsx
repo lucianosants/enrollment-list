@@ -23,7 +23,7 @@ export function Home() {
     }
 
     return (
-        <div className="px-4">
+        <div className="mt-4 mb-40 md:px-4">
             <ScrollToTop />
             <section>
                 <h2 className="pb-2 text-3xl tracking-tight border-b ont-semibold scroll-m-20 first:mt-0">

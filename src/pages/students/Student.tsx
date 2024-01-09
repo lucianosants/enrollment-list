@@ -35,7 +35,7 @@ export function StudentsPage() {
     }
 
     return (
-        <div className="mb-56">
+        <div className="mt-4 mb-56 md:px-4">
             <ScrollToTop />
             <h2 className="mb-6">Informações de aluno</h2>
 
@@ -44,7 +44,9 @@ export function StudentsPage() {
             ) : (
                 <Card>
                     <CardHeader>
-                        <CardTitle>{student?.name}</CardTitle>
+                        <CardTitle className="text-primary-alt">
+                            {student?.name}
+                        </CardTitle>
                         <CardDescription>
                             Aluno matriculado em {getDate(student?.createdAt)}
                         </CardDescription>

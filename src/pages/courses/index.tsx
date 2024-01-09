@@ -2,7 +2,7 @@ import { courses } from '@/data';
 
 export function CoursesPage() {
     return (
-        <section className="px-4">
+        <section className="mt-4 mb-40 md:px-4">
             <div className="mb-2">
                 <h2>Cursos</h2>
 

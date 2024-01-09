@@ -57,10 +57,10 @@ export function EditStudentPage() {
     }
 
     return (
-        <section className="px-4 mb-40">
+        <section className="mt-4 mb-40 md:px-4">
             <ScrollToTop />
             <h2>
-                AlteraçÕes de informações de{' '}
+                Alterações de informações de{' '}
                 <span className="text-primary-alt">{student?.name}</span>
             </h2>
 
