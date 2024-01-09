@@ -9,19 +9,29 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 
 import {
+    editStudent,
     fetchStudentByName,
     getAllStudents,
     insertStudent,
+    insertSubjects,
     removerStudent,
 } from '@/services';
-import { api } from '@/lib/api';
 import { StudentSchemaProps } from '@/@types';
 import { AxiosErrorProps } from '@/@types/axios-error';
+import { filterSubjects } from '@/services/utils';
 
 type UseFetchStudentsProps = {
     currentPage: number;
     perPage: number;
 };
+
+function useLocalHooks() {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const { ...toast } = useToast();
+
+    return { queryClient, navigate, ...toast };
+}
 
 export function useFetchStudents(props: UseFetchStudentsProps) {
     const { currentPage, perPage } = props;
@@ -67,9 +77,7 @@ export function useFetchStudentById(id: string) {
 }
 
 export function useRemoveStudent(name: string) {
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
-    const { toast } = useToast();
+    const { queryClient, navigate, toast } = useLocalHooks();
 
     const { ...rest } = useMutation({
         mutationFn: async (id: string) => {
@@ -107,15 +115,25 @@ export function useRemoveStudent(name: string) {
 }
 
 export function useInsertStudent() {
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
-    const { toast } = useToast();
+    const { queryClient, navigate, toast } = useLocalHooks();
 
     const { ...rest } = useMutation({
         mutationFn: async (data: Partial<StudentSchemaProps>) => {
-            await insertStudent(data);
-        },
+            const { student } = await insertStudent(data);
+            const { subjects } = filterSubjects(String(data.course));
 
+            const subjectData = {
+                studentId: student.id,
+                subjects: subjects?.map((subject) => ({
+                    name: subject,
+                    studentId: student.id,
+                })),
+            };
+
+            await insertSubjects(subjectData);
+
+            return { student };
+        },
         onSuccess: async () => {
             await queryClient.invalidateQueries({
                 queryKey: ['students'],
@@ -144,13 +162,11 @@ export function useInsertStudent() {
 }
 
 export function useEditStudent(id: string) {
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
-    const { toast } = useToast();
+    const { queryClient, navigate, toast } = useLocalHooks();
 
     const { ...rest } = useMutation({
         mutationFn: async (data: StudentSchemaProps) => {
-            await api.patch(`/student/${id}`, data);
+            await editStudent(id, data);
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries({

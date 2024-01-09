@@ -92,8 +92,11 @@ export function FormFieldCourse(form: Partial<FormProps['form']>) {
                     <FormItem>
                         <FormLabel>Curso</FormLabel>
                         <SelectCourses field={{ ...field }} />
-                        <FormDescription>
-                            Você pode escolher um curso na lista acima.
+                        <FormDescription className="flex flex-col">
+                            Você pode escolher um curso na lista acima.{' '}
+                            <span className="text-primary-alt">
+                                Obs.: não será possível alterar o curso depois.
+                            </span>
                         </FormDescription>
                         <FormMessage />
                     </FormItem>

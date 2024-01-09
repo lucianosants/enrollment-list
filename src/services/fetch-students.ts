@@ -45,10 +45,14 @@ export async function removerStudent(id: string) {
 }
 
 export async function insertStudent(data: Partial<StudentSchemaProps>) {
-    const { data: student } = await api.post(url, {
+    const { data: student } = await api.post<StudentProps>(url, {
         ...data,
         createdAt: data.createdAt?.toISOString(),
     });
 
     return { student };
+}
+
+export async function editStudent(id: string, data: StudentSchemaProps) {
+    await api.patch(`${url}/${id}`, data);
 }
