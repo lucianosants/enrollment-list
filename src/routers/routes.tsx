@@ -12,6 +12,7 @@ import {
     StudentsPage,
     RegisterStudent,
     EditStudentPage,
+    SearchPage,
 } from '@/pages';
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: '/students/edit/:id',
                 element: <EditStudentPage />,
+            },
+            {
+                path: '/students/search',
+                element: <SearchPage />,
             },
         ],
     },

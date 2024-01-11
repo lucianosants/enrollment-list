@@ -11,13 +11,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Button } from '../ui/button';
-import { StudentBase } from '@/@types';
+import { StudentTableProps } from '@/@types';
 
-export type Student = StudentBase & {
-    course: string;
-};
-
-export const columns: ColumnDef<Student>[] = [
+export const columns: ColumnDef<StudentTableProps>[] = [
     {
         accessorKey: 'name',
         header: 'Nome',

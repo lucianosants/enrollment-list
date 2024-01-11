@@ -697,4 +697,4 @@ export const courses: CourseProps[] = [
             },
         ],
     },
-] as const;
+];

@@ -18,4 +18,8 @@ export type StudentProps = StudentBase & {
     course: CourseProps;
 };
 
+export type StudentTableProps = StudentBase & {
+    course: string;
+};
+
 export type StudentSchemaProps = z.infer<typeof studentSchema>;

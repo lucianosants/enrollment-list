@@ -1,6 +1,11 @@
 import { api } from '@/lib/api';
 import { getDate } from './utils';
-import { StudentBase, StudentProps, StudentSchemaProps } from '@/@types';
+import {
+    StudentBase,
+    StudentProps,
+    StudentSchemaProps,
+    StudentTableProps,
+} from '@/@types';
 
 type AllStudentProps = StudentBase & {
     createdAt: string;
@@ -55,4 +60,21 @@ export async function insertStudent(data: Partial<StudentSchemaProps>) {
 
 export async function editStudent(id: string, data: StudentSchemaProps) {
     await api.patch(`${url}/${id}`, data);
+}
+
+export async function searchStudents(name: string) {
+    const { data } = await api.get(url, {
+        params: { name: name },
+    });
+
+    const students = data.map((student: AllStudentProps) => ({
+        name: student.name,
+        age: student.age,
+        status: student.status,
+        course: student.course.name,
+        id: student.id,
+        createdAt: getDate(student.createdAt),
+    })) as StudentTableProps[];
+
+    return students;
 }

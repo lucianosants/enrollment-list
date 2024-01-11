@@ -6,7 +6,6 @@ import logo from '@/assets/logo.svg';
 import { Button } from '../ui/button';
 
 import { ModeToggle } from '..';
-import { SearchBar } from './SearchBar';
 import { MenuBar } from './MenuBar';
 
 export function Header() {
@@ -26,14 +25,10 @@ export function Header() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <div className="hidden md:block">
-                        <SearchBar />
-                    </div>
-
                     <Button variant={'ghost'} size={'icon'} asChild>
                         <Link
                             to={
-                                'https://github.com/lucianosants/enrollment-list-web'
+                                'https://github.com/lucianosants/enrollment-list'
                             }
                             target="_blank"
                         >

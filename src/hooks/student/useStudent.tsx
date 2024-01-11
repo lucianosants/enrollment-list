@@ -15,6 +15,7 @@ import {
     insertStudent,
     insertSubjects,
     removerStudent,
+    searchStudents,
 } from '@/services';
 import { StudentSchemaProps } from '@/@types';
 import { AxiosErrorProps } from '@/@types/axios-error';
@@ -44,7 +45,7 @@ export function useFetchStudents(props: UseFetchStudentsProps) {
         refetchOnMount: false,
     });
 
-    const { toast } = useToast();
+    const { toast } = useLocalHooks();
 
     const refetchTable = async () => {
         const { isError } = await rest.refetch();
@@ -193,4 +194,14 @@ export function useEditStudent(id: string) {
     });
 
     return { ...rest };
+}
+
+export function useSearchStudent(name: string) {
+    const { data: students, ...rest } = useQuery({
+        queryKey: ['students_search', name],
+        queryFn: () => searchStudents(name),
+        refetchOnWindowFocus: false,
+    });
+
+    return { students, ...rest };
 }
