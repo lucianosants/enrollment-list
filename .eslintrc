@@ -21,7 +21,7 @@
         "plugin:@typescript-eslint/recommended",
         "eslint-config-prettier"
     ],
-    "ignorePatterns": ["dist", ".eslintrc"],
+    "ignorePatterns": ["dist", ".eslintrc", "src/components/ui"],
     "parser": "@typescript-eslint/parser",
     "plugins": ["react-refresh"],
     "rules": {
