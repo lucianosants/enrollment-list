@@ -49,7 +49,7 @@ export function EditStudentPage() {
             form.setValue('createdAt', new Date(String(student.createdAt)));
         }
 
-        form.setValue('course', String(student?.course.name));
+        form.setValue('course', String(student?.course?.name));
     }, [form, student]);
 
     if (isLoading) {

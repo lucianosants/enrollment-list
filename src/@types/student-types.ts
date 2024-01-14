@@ -13,9 +13,9 @@ export type StudentProps = StudentBase & {
     courseId: string;
     createdAt: Date;
     updatedAt: Date;
-    Grades: GradeProps[];
-    subjects: SubjectProps[];
-    course: CourseProps;
+    Grades?: GradeProps[];
+    subjects?: SubjectProps[];
+    course?: CourseProps;
 };
 
 export type StudentTableProps = StudentBase & {

@@ -18,3 +18,12 @@ export const studentSchema = z.object({
             'Data de matricula é obrigatória. Por favor, informe uma data válida.',
     }),
 });
+
+export const gradeSchema = z.object({
+    value: z.coerce
+        .number()
+        .min(0, 'Nota não pode ser negativa.')
+        .max(10, 'Nota não pode ser maior que 10.'),
+    studentId: z.string().min(3),
+    subjectId: z.string().min(3, 'Informe uma disciplina.'),
+});

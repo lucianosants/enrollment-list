@@ -26,7 +26,7 @@ type UseFetchStudentsProps = {
     perPage: number;
 };
 
-function useLocalHooks() {
+export function useLocalHooks() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const { ...toast } = useToast();
