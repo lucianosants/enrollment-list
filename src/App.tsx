@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 function App() {
     return (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <QueryClientProvider client={queryClient}>
                 <div className="container flex flex-col min-h-screen mx-auto overflow-x-hidden font-signature">
                     <Header />
